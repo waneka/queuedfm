@@ -36,11 +36,5 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/hello.txt', function(req, res) {
-  var body = 'Hello World'
-  res.setHeader('Content-Type', 'text/plain')
-  res.setHeader('Content-Length', Buffer.byteLength(body))
-  res.end(body)
-})
 app.get('/', routes.index);
 app.get('/users', user.list);

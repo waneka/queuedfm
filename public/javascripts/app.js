@@ -1,12 +1,26 @@
-var queuedApp = angular.module('polls', [])
+var queuedApp = angular.module('queuedApp', [
+  'ngRoute',
+  'queuedControllers'
+  ])
 
-queuedApp.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.
-    when('/parties', { templateUrl: 'partials/parties.html', controller:
-      PartiesCtrl }).
-    // when('/poll/:pollId', { templateUrl: 'partials/item.html', controller:
-    //   PollItemCtrl }).
-    // when('/new', { templateUrl: 'partials/new.html', controller:
-    //   PollNewCtrl }).
-    otherwise({ redirectTo: '/polls' });
-}]);
+queuedApp.config(['$routeProvider', '$locationProvider',
+  function($routeProvider, $locationProvider) {
+    $routeProvider.
+      when('/home', {
+        templateUrl: 'partials/welcome.ejs',
+        controller: 'WelcomeCtrl'
+      }).
+      when('/join', {
+        templateUrl: 'partials/join.ejs',
+        controller: 'JoinCtrl'
+      }).
+      when('/party/:url', {
+        controller: 'PartyCtrl',
+        templateUrl: '/partials/parties.ejs'
+      }).
+      otherwise({
+        redirectTo: '/home'
+      })
+
+    $locationProvider.html5Mode(true)
+}])

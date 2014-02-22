@@ -11,6 +11,7 @@
     "ejs": "*",
     "mongodb": ">=0.9.6-7",
     "mongoose": ">=3.6",
-    "ejs-locals": "~1.0.2"
+    "ejs-locals": "~1.0.2",
+    "shortid": "~2.0.0"
   }
 }

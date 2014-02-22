@@ -8,14 +8,13 @@ var api = require('./routes/api')
 // var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
-var engine = require('ejs-locals')
 
 var app = express();
 var server = http.createServer(app)
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-app.engine('ejs', engine)
+app.engine('html', require('ejs').renderFile);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());

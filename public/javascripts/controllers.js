@@ -62,7 +62,6 @@ queuedControllers.controller('PartyJoinCtrl', ['$scope', '$http', '$location',
             debugger
           })
       }
-      // $http.get('/api/join_party/' + )
     }
 }])
 

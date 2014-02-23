@@ -22,8 +22,14 @@ queuedApp.config(['$routeProvider', '$locationProvider',
         controller: 'PartyCtrl',
         templateUrl: '/partials/parties.ejs'
       }).
+      when('/party/undefined', {
+        redirectTo: '/'
+        // maybe a ctrl to handle this specific error?
+        // render a template with the error message to the screen?
+        // error handling, what?
+      }).
       otherwise({
-        redirectTo: '/home'
+        redirectTo: '/'
       })
 
     $locationProvider.html5Mode(true)

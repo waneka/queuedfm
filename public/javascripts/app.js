@@ -12,7 +12,7 @@ queuedApp.config(['$routeProvider', '$locationProvider',
       }).
       when('/home', {
         templateUrl: 'partials/home.ejs',
-        controller: HomeCtrl
+        controller: 'HomeCtrl'
       }).
       when('/join', {
         templateUrl: 'partials/join.ejs',
@@ -21,12 +21,6 @@ queuedApp.config(['$routeProvider', '$locationProvider',
       when('/party/:url', {
         controller: 'PartyCtrl',
         templateUrl: '/partials/parties.ejs'
-      }).
-      when('/party/undefined', {
-        redirectTo: '/'
-        // maybe a ctrl to handle this specific error?
-        // render a template with the error message to the screen?
-        // error handling, what?
       }).
       otherwise({
         redirectTo: '/'

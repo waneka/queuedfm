@@ -14,7 +14,7 @@ queuedControllers.controller('JoinCtrl', ['$scope', function($scope) {
 
 queuedControllers.controller('HomeCtrl', ['$scope', function($scope) {
   // debugger
-  console.log('home')
+  console.log('home!')
 }])
 
 queuedControllers.controller('PartyCreateCtrl', ['$scope', '$http', '$location',

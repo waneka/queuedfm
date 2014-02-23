@@ -6,7 +6,11 @@ var mongoose = require('mongoose')
 var uniqueValidator = require('mongoose-unique-validator')
 mongoose.connect('mongodb://localhost/queued')
 var partySchema = mongoose.Schema({
-  host_id: String, name: {type: String, unique: true}, party_url: {type: String, unique: true}
+  host_id: String
+  , name: { type: String, unique: true }
+  , party_url: { type: String, unique: true }
+  , created_at: { typ: Date, default: Date.now }
+  , updated_at: { typ: Date, default: Date.now }
 })
 var Party = mongoose.model('Party', partySchema)
 

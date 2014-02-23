@@ -19,7 +19,8 @@ queuedControllers.controller('HomeCtrl', ['$scope', function($scope) {
 
 queuedControllers.controller('PartyCreateCtrl', ['$scope', '$http', '$location',
   function($scope, $http, $location) {
-    // $scope.form = {}
+    // need to send the user_id with the post
+    // parties will have a host_id - based off of the user_id of the 'host'
     $scope.create = function() {
       $http.post('/api/new_party').
         success(function(data) {
@@ -41,15 +42,19 @@ queuedControllers.controller('PartyCtrl', ['$scope', '$http', '$routeParams',
       })
   // so, this should load the page that was created above ^^
   // give that page any info it may need. load the search, queue/vote, and player stuff
+  // this will also check to make sure the host_id of the party matches the user_id
+  //    -if so, the user will have access to the player controls
 }])
 
 queuedControllers.controller('PartyJoinCtrl', ['$scope', '$http', '$location',
   function($scope, $http, $location) {
+    // ** This ctrl can also be used by a host to enter an old party **
+    // TODO: send over the user_id, if one is present
+    // only the user with a user_id that matches the party's host_id will be able to play music
     $scope.submit = function() {
       if ($scope.name) {
         $http.get('/api/join_party/' + $scope.name).
           success(function(data) {
-            debugger
             console.log('Party ' + data.party.name + ' exists!')
             $location.url('/party/' + data.party.party_url)
           }).error(function(data, status) {

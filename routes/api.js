@@ -21,18 +21,17 @@ var Party = mongoose.model('Party', partySchema)
 var shortId = require('shortid')
 
 exports.newParty = function(req, res) {
-  var uniqueUrl = shortId.generate()
-  console.log('uniqueUrl: ' + uniqueUrl)
   var newParty = new Party({
     host_id: '1',
-    name: 'beardy',
-    party_url: uniqueUrl
+    name: 'schmeardy',
+    party_url: shortId.generate()
   })
   newParty.save(function(err) {
     if (err) {
-      console.log(err)
+      console.log('Error creating party: ' + err)
+      // res.send(err) // bah! ask myles how to handle this error.
     } else {
-      console.log(newParty)
+      console.log('new party created: ' + newParty)
       res.json(newParty)
     }
   })

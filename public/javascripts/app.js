@@ -6,9 +6,13 @@ var queuedApp = angular.module('queuedApp', [
 queuedApp.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
     $routeProvider.
-      when('/home', {
+      when('/', {
         templateUrl: 'partials/welcome.ejs',
         controller: 'WelcomeCtrl'
+      }).
+      when('/home', {
+        templateUrl: 'partials/home.ejs',
+        controller: HomeCtrl
       }).
       when('/join', {
         templateUrl: 'partials/join.ejs',

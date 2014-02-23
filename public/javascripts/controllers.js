@@ -12,6 +12,11 @@ queuedControllers.controller('JoinCtrl', ['$scope', function($scope) {
   console.log('join')
 }])
 
+queuedControllers.controller('HomeCtrl', ['$scope', function($scope) {
+  // debugger
+  console.log('home')
+}])
+
 queuedControllers.controller('PartyCreateCtrl', ['$scope', '$http', '$location',
   function($scope, $http, $location) {
     // $scope.form = {}

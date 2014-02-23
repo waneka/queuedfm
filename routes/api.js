@@ -3,9 +3,10 @@
 */
 
 var mongoose = require('mongoose')
+var uniqueValidator = require('mongoose-unique-validator')
 mongoose.connect('mongodb://localhost/queued')
 var partySchema = mongoose.Schema({
-  host_id: String, name: String, party_url: String
+  host_id: String, name: {type: String, unique: true}, party_url: {type: String, unique: true}
 })
 var Party = mongoose.model('Party', partySchema)
 
@@ -20,14 +21,17 @@ exports.newParty = function(req, res) {
   console.log('uniqueUrl: ' + uniqueUrl)
   var newParty = new Party({
     host_id: '1',
-    name: 'marty',
+    name: 'beardy',
     party_url: uniqueUrl
   })
-  urlCounter ++
-  console.log('urlCounter:' + urlCounter)
-  newParty.save()
-  console.log(newParty)
-  res.json(newParty)
+  newParty.save(function(err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(newParty)
+      res.json(newParty)
+    }
+  })
 }
 
 exports.loadParty = function(req, res) {

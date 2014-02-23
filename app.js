@@ -2,21 +2,19 @@
 /**
  * Module dependencies.
  */
-
-
 var express = require('express');
 var routes = require('./routes');
-var user = require('./routes/user');
+var api = require('./routes/api')
+// var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
-var engine = require('ejs-locals')
 
 var app = express();
 var server = http.createServer(app)
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-app.engine('ejs', engine)
+app.engine('html', require('ejs').renderFile);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -37,3 +35,18 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/api/party/:url', api.loadParty)
+app.get('/api/join_party/:name', api.joinParty)
+
+app.post('/api/new_party', api.newParty)
+// app.post('parties/join', routes.join_party)
+
+
+
+
+
+
+
+
+
+

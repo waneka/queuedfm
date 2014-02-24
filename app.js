@@ -8,9 +8,11 @@ var api = require('./routes/api')
 // var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
+var sio = require('socket.io')
 
 var app = express();
 var server = http.createServer(app)
+var io = sio.listen(server)
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -41,12 +43,9 @@ app.get('/api/join_party/:name', api.joinParty)
 app.post('/api/new_party', api.newParty)
 // app.post('parties/join', routes.join_party)
 
-
-
-
-
-
-
-
-
-
+io.sockets.on('connection', function(socket) {
+  socket.emit('news', { hello: 'world' })
+  socket.on('my other event', function(data) {
+    console.log(data)
+  })
+})

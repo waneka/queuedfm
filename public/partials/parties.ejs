@@ -1,2 +1,11 @@
 <h1>Party Name: {{party.name}}</h1>
 <h2>Party URL: {{party.party_url}}</h2>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
+</script>

@@ -13,6 +13,17 @@ var partySchema = mongoose.Schema({
   , updated_at: { type: Date, default: Date.now }
 })
 var Party = mongoose.model('Party', partySchema)
+var songSchema = mongoose.Schema({
+  name: String
+  , album: String
+  , artist: String
+  , img_url: String // 'icon'
+  , duration: Number
+  , key: String
+  , vote_count: Number
+})
+var Song = mongoose.model('Song', songSchema)
+
 
 /*
   Serves JSON to the Angularjs client

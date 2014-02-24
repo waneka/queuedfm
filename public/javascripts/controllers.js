@@ -109,10 +109,10 @@ queuedControllers.controller('PlayerCtrl', ['$scope', '$http',
 queuedControllers.controller('QueueCtrl', ['$scope', '$http',
   function($scope, $http) {
     // the queue should:
-    // - accept songs from search
-    // - manage the songs as per vote count
-    // - offer the top song in queue as available to the player
-    //   - maybe there is a function that is called when the player is ready for a song
+    // - accept songs from DB via sockets
+    // - sort the songs based on vote count
+    // - give the top song in queue to the player upon request
+    //
   }])
 
 

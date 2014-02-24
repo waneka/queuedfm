@@ -65,9 +65,55 @@ queuedControllers.controller('PartyJoinCtrl', ['$scope', '$http', '$location',
     }
 }])
 
-queuedControllers.controller('PartiesCtrl', ['$scope', '$http',
+queuedControllers.controller('RdioCtrl', ['$scope', '$http',
   function($scope, $http) {
+    // this is a valid playback token for localhost.
+    // but you should go get your own for your own domain.
+    $('#api').rdio('GAlNi78J_____zlyYWs5ZG02N2pkaHlhcWsyOWJtYjkyN2xvY2FsaG9zdEbwl7EHvbylWSWFWYMZwfc=');
 }])
+
+queuedControllers.controller('PlayerCtrl', ['$scope', '$http',
+  function($scope, $http) {
+    // player logic here?
+    // var key = 't1249326'
+    $('#api').bind('ready.rdio', function() {
+      $(this).rdio().play(key);
+    });
+    $('#api').bind('playingTrackChanged.rdio', function(e, playingTrack, sourcePosition) {
+      if (playingTrack) {
+        duration = playingTrack.duration;
+        $('#art').attr('src', playingTrack.icon);
+        $('#track').text(playingTrack.name);
+        $('#album').text(playingTrack.album);
+        $('#artist').text(playingTrack.artist);
+      }
+      });
+    $('#api').bind('positionChanged.rdio', function(e, position) {
+      $('#position').css('width', Math.floor(100*position/duration)+'%');
+    });
+    $('#api').bind('playStateChanged.rdio', function(e, playState) {
+      if (playState == 0) { // paused
+        $('#play').show();
+        $('#pause').hide();
+      } else {
+        $('#play').hide();
+        $('#pause').show();
+      }
+    });
+    $('#previous').click(function() { $('#api').rdio().previous(); });
+    $('#play').click(function() { $('#api').rdio().play(); });
+    $('#pause').click(function() { $('#api').rdio().pause(); });
+    $('#next').click(function() { $('#api').rdio().next(); });
+}])
+
+queuedControllers.controller('QueueCtrl', ['$scope', '$http',
+  function($scope, $http) {
+    // the queue should:
+    // - accept songs from search
+    // - manage the songs as per vote count
+    // - offer the top song in queue as available to the player
+    //   - maybe there is a function that is called when the player is ready for a song
+  }])
 
 
 

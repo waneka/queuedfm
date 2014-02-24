@@ -13,6 +13,7 @@
     "mongoose": ">=3.6",
     "ejs-locals": "~1.0.2",
     "shortid": "~2.0.0",
-    "mongoose-unique-validator": "~0.3.0"
+    "mongoose-unique-validator": "~0.3.0",
+    "socket.io": "~0.9.16"
   }
 }

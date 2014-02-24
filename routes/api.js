@@ -9,8 +9,8 @@ var partySchema = mongoose.Schema({
   host_id: String
   , name: { type: String, unique: true }
   , party_url: { type: String, unique: true }
-  , created_at: { typ: Date, default: Date.now }
-  , updated_at: { typ: Date, default: Date.now }
+  , created_at: { type: Date, default: Date.now }
+  , updated_at: { type: Date, default: Date.now }
 })
 var Party = mongoose.model('Party', partySchema)
 
@@ -23,7 +23,7 @@ var shortId = require('shortid')
 exports.newParty = function(req, res) {
   var newParty = new Party({
     host_id: '1',
-    name: 'schmeardy',
+    name: 'leardy',
     party_url: shortId.generate()
   })
   newParty.save(function(err) {

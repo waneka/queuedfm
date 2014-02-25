@@ -38,7 +38,7 @@ queuedControllers.controller('PartyCtrl', ['$scope', '$http', '$routeParams',
     $http.get('/api/party/' + $routeParams.url).
       success(function(data) {
         $scope.party = data.party
-        console.log('party: ' + data.party.name)
+        // console.log('party: ' + data.party.name)
       })
   // so, this should load the page that was created above ^^
   // give that page any info it may need. load the search, queue/vote, and player stuff

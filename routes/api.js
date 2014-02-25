@@ -1,29 +1,10 @@
 /*
   DB configuration
 */
-
 var mongoose = require('mongoose')
-var uniqueValidator = require('mongoose-unique-validator')
-mongoose.connect('mongodb://localhost/queued')
-var partySchema = mongoose.Schema({
-  host_id: String
-  , name: { type: String, unique: true }
-  , party_url: { type: String, unique: true }
-  , created_at: { type: Date, default: Date.now }
-  , updated_at: { type: Date, default: Date.now }
-})
-var Party = mongoose.model('Party', partySchema)
-var songSchema = mongoose.Schema({
-  name: String
-  , album: String
-  , artist: String
-  , img_url: String // 'icon'
-  , duration: Number
-  , key: String
-  , vote_count: Number
-})
-var Song = mongoose.model('Song', songSchema)
-
+mongoose.createConnection('mongodb://localhost/queued')
+var Party = mongoose.model('Party')
+var Song = mongoose.model('Song')
 
 /*
   Serves JSON to the Angularjs client

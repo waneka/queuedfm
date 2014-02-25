@@ -1,3 +1,12 @@
+/**
+ * DB configuration
+ **/
+require('./db/models.js').initialize();
+var mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost/queued')
+var Song = mongoose.model('Song')
+
+
 
 /**
  * Module dependencies.

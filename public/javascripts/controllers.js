@@ -65,6 +65,14 @@ queuedControllers.controller('PartyJoinCtrl', ['$scope', '$http', '$location',
     }
 }])
 
+queuedControllers.controller('SocketCtrl', ['$scope', '$http',
+  function($scope, $http) {
+    socket.on('news', function (data) {
+      console.log('socket data: ' + data.hello);
+      socket.emit('my other event', { my: 'data' });
+    });
+}])
+
 queuedControllers.controller('RdioCtrl', ['$scope', '$http',
   function($scope, $http) {
     // this is a valid playback token for localhost.

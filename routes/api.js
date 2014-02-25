@@ -40,13 +40,24 @@ exports.loadParty = function(req, res) {
 }
 
 exports.joinParty = function(req, res) {
-  console.log('party time')
+  console.log('joining party: ' + req.params.name)
   Party.findOne({name: req.params.name}, function(err, obj) {
     if (err) {
+      console.log('error finding party in DB')
       res.end(err)
+    } else {
+      res.json({
+        party: obj
+      })
     }
+  })
+}
+
+exports.loadSongs = function(req, res) {
+  console.log('loading songs...')
+  Song.find({}, function(err, songs) {
     res.json({
-      party: obj
+      songs: songs
     })
   })
 }

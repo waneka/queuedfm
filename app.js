@@ -48,6 +48,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/api/party/:url', api.loadParty)
 app.get('/api/join_party/:name', api.joinParty)
+app.get('/api/songs', api.loadSongs)
 
 app.post('/api/new_party', api.newParty)
 // app.post('parties/join', routes.join_party)

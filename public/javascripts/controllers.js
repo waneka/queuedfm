@@ -114,14 +114,56 @@ queuedControllers.controller('PlayerCtrl', ['$scope', '$http',
     $('#next').click(function() { $('#api').rdio().next(); });
 }])
 
+queuedControllers.controller('SearchCtrl', ['$scope', '$http',
+  function($scope, $http) {
+    // the search should:
+    // - make a call to rdio based on text input
+    // - display results in a list
+    //   - each song should have a link to add to queue
+    //     - addToQueue should create new song object and add to DB
+    //     - socket emit 'add song' with song info
+    socket.emit('save song', { song: {
+      name: "My Name Is Jonas"
+      , album: "Weezer"
+      , artist: "The Green Album"
+      , key: "t2714517"
+      , img_url: "http://rdio-d.cdn3.rdio.com/album/f/7/c/0000000000036c7f/square-200.jpg"
+      , duration: 204
+      , vote_count: 0
+    }} )
+}])
+
 queuedControllers.controller('QueueCtrl', ['$scope', '$http',
   function($scope, $http) {
     // the queue should:
     // - accept songs from DB via sockets
-    // - sort the songs based on vote count
+    //   - socket on 'song added to DB'
+    // - display queue in a list
+    //   - each song in queue should have a button to vote
+    //   - votes should be validated based on user -- one vote per user
+    //     - sort the songs based on vote count
+    //       - sort method that is called via sockets
     // - give the top song in queue to the player upon request
-    //
-  }])
+    socket.on('add song to queue', function(data) {
+      console.log('gonna add this song to the queue now: ' + data.song.name)
+      // api call to get all songs in DB
+      // angular magic to list all songs
+      $http.get('/api/songs').
+        success(function(data) {
+          $scope.songs = data.songs
+          $scope.orderProp = 'vote_count'
+        })
+    })
+    $scope.upVote = function() {
+      socket.emit('up vote', { songId: this.song._id })
+    }
+    socket.on('sort queue', function(data) {
+      console.log('got it, sorting the queue now.')
+      $scope.songs = data
+      $scope.orderProp = 'vote_count'
+      $scope.$apply()
+    })
+}])
 
 
 

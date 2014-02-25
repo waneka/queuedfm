@@ -1,3 +1,12 @@
+/**
+ * DB configuration
+ **/
+require('./db/models.js').initialize();
+var mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost/queued')
+var Song = mongoose.model('Song')
+
+
 
 /**
  * Module dependencies.
@@ -39,13 +48,46 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/api/party/:url', api.loadParty)
 app.get('/api/join_party/:name', api.joinParty)
+app.get('/api/songs', api.loadSongs)
 
 app.post('/api/new_party', api.newParty)
 // app.post('parties/join', routes.join_party)
 
 io.sockets.on('connection', function(socket) {
-  socket.emit('news', { hello: 'world' })
-  socket.on('my other event', function(data) {
-    console.log(data)
+  // socket.emit('news', { hello: 'world' })
+  // socket.on('my other event', function(data) {
+  //   console.log(data)
+  // })
+  // search connections
+  socket.on('save song', function(data) {
+    console.log('song: ' + data.song)
+    var newSong = new Song(data.song)
+    newSong.save(function(err) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log('Song saved')
+        socket.emit('add song to queue', { song: newSong })
+      }
+    })
+  })
+
+  socket.on('up vote', function(data) {
+    console.log('song id: ' + data.songId)
+    var currentVoteCount = 0
+    Song.findOne({_id: data.songId}, function(err, song) {
+      currentVoteCount = song.vote_count
+      song.vote_count = (currentVoteCount += 1)
+      song.save(function(err, song) {
+        if (err) {
+          console.log('error incrementing the vote count')
+        } else {
+          console.log('Vote count increased' + song.name)
+          Song.find({}, function(err, songs) {
+            socket.emit('sort queue', songs)
+          })
+        }
+      })
+    })
   })
 })

@@ -1,18 +1,10 @@
 /*
   DB configuration
 */
-
 var mongoose = require('mongoose')
-var uniqueValidator = require('mongoose-unique-validator')
-mongoose.connect('mongodb://localhost/queued')
-var partySchema = mongoose.Schema({
-  host_id: String
-  , name: { type: String, unique: true }
-  , party_url: { type: String, unique: true }
-  , created_at: { type: Date, default: Date.now }
-  , updated_at: { type: Date, default: Date.now }
-})
-var Party = mongoose.model('Party', partySchema)
+mongoose.createConnection('mongodb://localhost/queued')
+var Party = mongoose.model('Party')
+var Song = mongoose.model('Song')
 
 /*
   Serves JSON to the Angularjs client
@@ -48,29 +40,24 @@ exports.loadParty = function(req, res) {
 }
 
 exports.joinParty = function(req, res) {
-  console.log('party time')
+  console.log('joining party: ' + req.params.name)
   Party.findOne({name: req.params.name}, function(err, obj) {
     if (err) {
+      console.log('error finding party in DB')
       res.end(err)
+    } else {
+      res.json({
+        party: obj
+      })
     }
-    res.json({
-      party: obj
-    })
   })
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+exports.loadSongs = function(req, res) {
+  console.log('loading songs...')
+  Song.find({}, function(err, songs) {
+    res.json({
+      songs: songs
+    })
+  })
+}

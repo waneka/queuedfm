@@ -122,6 +122,7 @@ queuedControllers.controller('SearchCtrl', ['$scope', '$http',
     //   - each song should have a link to add to queue
     //     - addToQueue should create new song object and add to DB
     //     - socket emit 'add song' with song info
+
     socket.emit('save song', { song: {
       name: "My Name Is Jonas"
       , album: "Weezer"
@@ -146,8 +147,6 @@ queuedControllers.controller('QueueCtrl', ['$scope', '$http',
     // - give the top song in queue to the player upon request
     socket.on('add song to queue', function(data) {
       console.log('gonna add this song to the queue now: ' + data.song.name)
-      // api call to get all songs in DB
-      // angular magic to list all songs
       $http.get('/api/songs').
         success(function(data) {
           $scope.songs = data.songs

@@ -15,7 +15,7 @@ var shortId = require('shortid')
 exports.newParty = function(req, res) {
   var newParty = new Party({
     host_id: '1',
-    name: 'leardy',
+    name: 'dev bootcamp',
     party_url: shortId.generate()
   })
   newParty.save(function(err) {

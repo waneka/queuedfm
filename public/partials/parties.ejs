@@ -3,26 +3,11 @@
     <h1>Party Name: {{party.name}}</h1>
 
     <div class="search" ng-controller='SearchCtrl'>
+      <button ng-click='search()'>Search</button>
     </div>
 
     <div class="player" ng-controller='PlayerCtrl'>
-      <div id="api"></div>
-      <!-- <img id="art" src="" height="200" width="200" style="float:left;margin-right:20px;"> -->
-      <div>
-        <div><b>Track: </b><span id="track"></span></div>
-        <div><b>Album: </b><span id="album"></span></div>
-        <div><b>Artist: </b><span id="artist"></span></div>
-        <div><b>Position: </b>
-          <span style="display:inline-block;width:200px;border:1px solid black;">
-            <span id="position" style="display:inline-block;background-color:#666">&nbsp;</span>
-          </span></div>
-        <div>
-          <button id="previous">&lt;&lt;</button>
-          <button id="play">|&gt;</button>
-          <button id="pause">||</button>
-          <button id="next">&gt;&gt;</button>
-        </div>
-      </div>
+      <button ng-click='play()'>Play Biggie</button>
     </div>
 
     <div ng-controller='QueueCtrl' class="queue">
@@ -38,6 +23,7 @@
 
 
 
-<script>
-  var socket = io.connect('http://localhost');
-</script>
+<script>var socket = io.connect('http://localhost')</script>
+<!-- <script src="https://www.rdio.com/api/api.js?client_id=3OUutphWh4HtZu_iRQPcMA"></script> -->
+<script src="https://www.rdio.com/api/api.js?helper=../html/helper.html&client_id=3OUutphWh4HtZu_iRQPcMA"></script>
+<script src="../javascripts/controllers.js"></script>

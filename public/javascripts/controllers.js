@@ -130,6 +130,28 @@ queuedControllers.controller('SearchCtrl', ['$scope', '$http',
     //     - addToQueue should create new song object and add to DB
     //     - socket emit 'add song' with song info
 
+    $scope.search = function() {
+      var query = 'notorious'
+      var self = this;
+      R.request({
+        method: "search",
+        content: {
+          query: query,
+          types: "Album"
+        },
+        success: function(response) {
+          debugger
+          self.$input.val("");
+          self.showResults(response.result.results);
+        },
+        error: function(response) {
+          $(".error").text(response.message);
+        }
+      });
+    },
+
+
+
     socket.emit('save song', { song: {
       name: "My Name Is Jonas"
       , album: "Weezer"

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 var uniqueValidator = require('mongoose-unique-validator')
-// mongoose.createConnection('mongodb://localhost/queued')
 var Schema = mongoose.Schema
+
 module.exports = function() {
   var songSchema = new Schema({
     name: String

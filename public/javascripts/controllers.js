@@ -22,12 +22,14 @@ queuedControllers.controller('PartyCreateCtrl', ['$scope', '$http', '$location',
     // need to send the user_id with the post
     // parties will have a host_id - based off of the user_id of the 'host'
     $scope.create = function() {
-      $http.post('/api/new_party').
-        success(function(data) {
-          console.log('success!!!')
-          console.log('data: ' + data.party_url)
-          $location.url('/party/' + data.party_url)
-        })
+      if ($scope.party_name) {
+        $http.post('/api/new_party/' + $scope.party_name).
+          success(function(data) {
+            console.log('success!!!')
+            console.log('data: ' + data.party_url)
+            $location.url('/party/' + data.party_url)
+          })
+        }
     }
     // some logic to create a new party page at the url: 'party/:url'
     // post it to the database

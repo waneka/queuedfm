@@ -2,7 +2,7 @@
 
 var queuedControllers = angular.module('queuedControllers', [])
 
-queuedControllers.controller('WelcomeCtrl', ['$scope', function($scope) {
+queuedControllers.controller('WelcomeCtrl', ['$scope', '$http', function($scope, $http) {
   // debugger
   console.log('welcome!')
 }])
@@ -22,12 +22,14 @@ queuedControllers.controller('PartyCreateCtrl', ['$scope', '$http', '$location',
     // need to send the user_id with the post
     // parties will have a host_id - based off of the user_id of the 'host'
     $scope.create = function() {
-      $http.post('/api/new_party').
-        success(function(data) {
-          console.log('success!!!')
-          console.log('data: ' + data.party_url)
-          $location.url('/party/' + data.party_url)
-        })
+      if ($scope.party_name) {
+        $http.post('/api/new_party/' + $scope.party_name).
+          success(function(data) {
+            console.log('success!!!')
+            console.log('data: ' + data.party_url)
+            $location.url('/party/' + data.party_url)
+          })
+        }
     }
     // some logic to create a new party page at the url: 'party/:url'
     // post it to the database
@@ -77,41 +79,48 @@ queuedControllers.controller('RdioCtrl', ['$scope', '$http',
   function($scope, $http) {
     // this is a valid playback token for localhost.
     // but you should go get your own for your own domain.
-    $('#api').rdio('GAlNi78J_____zlyYWs5ZG02N2pkaHlhcWsyOWJtYjkyN2xvY2FsaG9zdEbwl7EHvbylWSWFWYMZwfc=');
+    // $('#api').rdio('GAlNi78J_____zlyYWs5ZG02N2pkaHlhcWsyOWJtYjkyN2xvY2FsaG9zdEbwl7EHvbylWSWFWYMZwfc=');
 }])
 
 queuedControllers.controller('PlayerCtrl', ['$scope', '$http',
   function($scope, $http) {
+
+    $scope.play = function() {
+      R.ready(function() {
+        R.player.play({source: "t1249326"});
+      });
+    }
+
     // player logic here?
     // var key = 't1249326'
-    $('#api').bind('ready.rdio', function() {
-      $(this).rdio().play(key);
-    });
-    $('#api').bind('playingTrackChanged.rdio', function(e, playingTrack, sourcePosition) {
-      if (playingTrack) {
-        duration = playingTrack.duration;
-        $('#art').attr('src', playingTrack.icon);
-        $('#track').text(playingTrack.name);
-        $('#album').text(playingTrack.album);
-        $('#artist').text(playingTrack.artist);
-      }
-      });
-    $('#api').bind('positionChanged.rdio', function(e, position) {
-      $('#position').css('width', Math.floor(100*position/duration)+'%');
-    });
-    $('#api').bind('playStateChanged.rdio', function(e, playState) {
-      if (playState == 0) { // paused
-        $('#play').show();
-        $('#pause').hide();
-      } else {
-        $('#play').hide();
-        $('#pause').show();
-      }
-    });
-    $('#previous').click(function() { $('#api').rdio().previous(); });
-    $('#play').click(function() { $('#api').rdio().play(); });
-    $('#pause').click(function() { $('#api').rdio().pause(); });
-    $('#next').click(function() { $('#api').rdio().next(); });
+    // $('#api').bind('ready.rdio', function() {
+    //   $(this).rdio().play(key);
+    // });
+    // $('#api').bind('playingTrackChanged.rdio', function(e, playingTrack, sourcePosition) {
+    //   if (playingTrack) {
+    //     duration = playingTrack.duration;
+    //     $('#art').attr('src', playingTrack.icon);
+    //     $('#track').text(playingTrack.name);
+    //     $('#album').text(playingTrack.album);
+    //     $('#artist').text(playingTrack.artist);
+    //   }
+    //   });
+    // $('#api').bind('positionChanged.rdio', function(e, position) {
+    //   $('#position').css('width', Math.floor(100*position/duration)+'%');
+    // });
+    // $('#api').bind('playStateChanged.rdio', function(e, playState) {
+    //   if (playState == 0) { // paused
+    //     $('#play').show();
+    //     $('#pause').hide();
+    //   } else {
+    //     $('#play').hide();
+    //     $('#pause').show();
+    //   }
+    // });
+    // $('#previous').click(function() { $('#api').rdio().previous(); });
+    // $('#play').click(function() { $('#api').rdio().play(); });
+    // $('#pause').click(function() { $('#api').rdio().pause(); });
+    // $('#next').click(function() { $('#api').rdio().next(); });
 }])
 
 queuedControllers.controller('SearchCtrl', ['$scope', '$http',
@@ -122,6 +131,27 @@ queuedControllers.controller('SearchCtrl', ['$scope', '$http',
     //   - each song should have a link to add to queue
     //     - addToQueue should create new song object and add to DB
     //     - socket emit 'add song' with song info
+
+    $scope.search = function() {
+      var query = 'notorious'
+      var self = this;
+      R.request({
+        method: "search",
+        content: {
+          query: query,
+          types: "Album"
+        },
+        success: function(response) {
+          debugger
+          // self.showResults(response.result.results);
+        },
+        error: function(response) {
+          // $(".error"1).text(response.message);
+        }
+      });
+    },
+
+
 
     socket.emit('save song', { song: {
       name: "My Name Is Jonas"
@@ -158,6 +188,7 @@ queuedControllers.controller('QueueCtrl', ['$scope', '$http',
     }
     socket.on('sort queue', function(data) {
       console.log('got it, sorting the queue now.')
+      // ng two way data binding?
       $scope.songs = data
       $scope.orderProp = 'vote_count'
       $scope.$apply()

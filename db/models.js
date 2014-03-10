@@ -1,4 +1,4 @@
-var models = ['./parties.js', './songs.js'];
+var models = ['./parties.js', './songs.js', './users.js'];
 
 exports.initialize = function() {
     var l = models.length;

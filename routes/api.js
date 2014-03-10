@@ -11,11 +11,13 @@ var Song = mongoose.model('Song')
 */
 
 var shortId = require('shortid')
+var http = require('http')
 
 exports.newParty = function(req, res) {
+  var name = req.params.party_name
   var newParty = new Party({
     host_id: '1',
-    name: 'dev bootcamp',
+    name: name,
     party_url: shortId.generate()
   })
   newParty.save(function(err) {

@@ -1,6 +1,10 @@
 <h1>Congrats! You've logged in!</h1>
-<div ng-controller='PartyCreateCtrl'>
-  <p><a ng-click="create()" href="">Create a Party!</a></p>
+<div>
+  <form ng-controller='PartyCreateCtrl' ng-submit='create()'>
+    <input type="text" name="party_name" ng-model="party_name">
+    <input type="submit" id="submit" value="Create!">
+  </form>
+
 </div>
 <!-- <div>
   <ul>

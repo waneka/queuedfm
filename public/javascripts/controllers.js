@@ -2,7 +2,7 @@
 
 var queuedControllers = angular.module('queuedControllers', [])
 
-queuedControllers.controller('WelcomeCtrl', ['$scope', function($scope) {
+queuedControllers.controller('WelcomeCtrl', ['$scope', '$http', function($scope, $http) {
   // debugger
   console.log('welcome!')
 }])

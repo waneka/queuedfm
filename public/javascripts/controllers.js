@@ -143,11 +143,10 @@ queuedControllers.controller('SearchCtrl', ['$scope', '$http',
         },
         success: function(response) {
           debugger
-          self.$input.val("");
-          self.showResults(response.result.results);
+          // self.showResults(response.result.results);
         },
         error: function(response) {
-          $(".error").text(response.message);
+          // $(".error"1).text(response.message);
         }
       });
     },
@@ -189,6 +188,7 @@ queuedControllers.controller('QueueCtrl', ['$scope', '$http',
     }
     socket.on('sort queue', function(data) {
       console.log('got it, sorting the queue now.')
+      // ng two way data binding?
       $scope.songs = data
       $scope.orderProp = 'vote_count'
       $scope.$apply()
